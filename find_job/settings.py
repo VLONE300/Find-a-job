@@ -57,6 +57,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'find_job.urls'
+
 AUTH_USER_MODEL = 'users.CustomUser'
 
 TEMPLATES = [

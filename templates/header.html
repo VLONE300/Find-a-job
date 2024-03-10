@@ -5,23 +5,36 @@
     <title>Title</title>
 </head>
 <body>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'vacancy-list' %}">Main</a>
+</li>
 {% if not user.is_authenticated %}
     <li class="nav-item">
-        <a class="nav-link" href="{% url 'sign-in' %}">Sign-in</a>
+        <a class="nav-link" href="{% url 'login' %}">Sign-in</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{% url 'sign-up' %}">Sign-up</a>
+        <a class="nav-link" href="{% url 'users:register' %}">Sign-up</a>
     </li>
 {% else %}
     <li class="nav-item">
-        <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+        <a class="nav-link" href="{% url 'users:profile' %}">Profile</a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'create-resume' %}">Add News</a>
+    {% if user.user_type == "company" %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'create-vacancy' %}">Add vacancy</a>
+        </li>
+
+        {% endif %}
+
+    <li>
+        <form action="{% url 'logout' %}" method="post" class="form-inline">
+            {% csrf_token %}
+            <button type="submit" class="nav-link btn btn-link"
+                    style="display: inline; border: none; background: none; box-shadow: none;">Logout
+            </button>
+        </form>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-    </li>
+
 {% endif %}
 </body>
 </html>

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div>
+        <h1>{{ vacancy.title }}</h1>
+    </div>
+
+    <div>
+        <h2>{{ vacancy.salary }}</h2>
+    </div>
+
+    <div>
+        <h3>{{ vacancy.description }}</h3>
+    </div>
+    <h2><a href="{% url 'edit-vacancy' vacancy.pk %}">Edit Vacancy</a></h2>
+{% endblock %}

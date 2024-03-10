@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Vacancy</h1>
+    {% for vacancy in vacancy_list %}
+        <a href="{{ vacancy.get_absolute_url }}">
+            <h1><p>{{ vacancy.title }}</p></h1>
+        </a>
+    {% endfor %}
 {% endblock %}
