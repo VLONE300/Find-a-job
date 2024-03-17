@@ -12,5 +12,23 @@
     <div>
         <h3>{{ vacancy.description }}</h3>
     </div>
-    <h2><a href="{% url 'edit-vacancy' vacancy.pk %}">Edit Vacancy</a></h2>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% if user.user_type == 'job_seeker' %}
+        <form method="post">
+            {% csrf_token %}
+            <h1><a href="{% url 'apply-vacancy' vacancy.pk %}">APPLY</a></h1>
+        </form>
+    {% endif %}
+
+
+    {% if user.is_authenticated and user == vacancy.user %}
+        <h2><a href="{% url 'edit-vacancy' vacancy.pk %}">Edit Vacancy</a></h2>
+        <h2><a href="{% url 'delete-vacancy' vacancy.pk %}">Delete Vacancy</a></h2>
+    {% endif %}
 {% endblock %}

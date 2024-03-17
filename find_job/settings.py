@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users.apps.UsersConfig',
     'vacancy.apps.VacancyConfig',
+    'resume.apps.ResumeConfig',
+    'main.apps.MainConfig',
 ]
 
 MIDDLEWARE = [

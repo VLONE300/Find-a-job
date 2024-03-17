@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div>
+        <h1>{{ resume.profession }}</h1>
+    </div>
+
+    <div>
+        <h2>{{ resume.data_of_birth }}</h2>
+    </div>
+
+    <div>
+        <h3>{{ resume.about_your_self }}</h3>
+    </div>
+    {% if user.is_authenticated and user == resume.user %}
+        <h2><a href="{% url 'edit-resume' resume.pk %}">Edit Resume</a></h2>
+        <h2><a href="{% url 'delete-resume' resume.pk %}">Delete Resume</a></h2>
+    {% endif %}
+{% endblock %}

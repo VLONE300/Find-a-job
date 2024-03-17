@@ -2,6 +2,8 @@ from django.conf import settings
 from django.db import models
 from django.urls import reverse
 
+from resume.models import Resume
+
 
 # Create your models here.
 class Vacancy(models.Model):
@@ -16,3 +18,9 @@ class Vacancy(models.Model):
 
     def get_absolute_url(self):
         return reverse("vacancy-detail", kwargs={"pk": self.pk})
+
+
+class VacancyApplication(models.Model):
+    vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE)
+    job_seeker = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    resume = models.ForeignKey(Resume, on_delete=models.CASCADE)

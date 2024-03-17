@@ -8,3 +8,7 @@ class VacancyForm(forms.ModelForm):
         model = Vacancy
         fields = ['title', 'salary', 'description']
 
+class VacancyFilterForm(forms.Form):
+    search = forms.CharField(max_length=255,required=False)
+
+
