@@ -5,7 +5,6 @@ from django.urls import reverse
 from resume.models import Resume
 
 
-# Create your models here.
 class Vacancy(models.Model):
     title = models.CharField(max_length=255)
     salary = models.CharField(max_length=100)

@@ -3,14 +3,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import ListView, CreateView, DetailView, UpdateView
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 
 from resume.models import Resume
 from vacancy.forms import VacancyForm, VacancyFilterForm
 from vacancy.models import Vacancy, VacancyApplication
 
 
-# Create your views here.
 class VacancyListView(ListView):
     model = Vacancy
     queryset = Vacancy.objects.all()
@@ -34,7 +33,7 @@ class VacancyView(DetailView):
     slug_field = 'pk'
 
 
-class AddVacancyView(CreateView):
+class AddVacancyView(LoginRequiredMixin, CreateView):
     model = Vacancy
     form_class = VacancyForm
     template_name = "vacancy/add_vacancy.html"
@@ -58,10 +57,12 @@ class EditVacancyView(LoginRequiredMixin, UpdateView):
         return self.get_queryset().get(pk=self.kwargs['pk'])
 
 
-class DeleteVacancyView(LoginRequiredMixin, View):
-    def get(self, request, pk):
-        Vacancy.objects.filter(pk=pk, user=request.user).delete()
-        return redirect('users:profile')
+class DeleteVacancyView(LoginRequiredMixin, DeleteView):
+    model = Vacancy
+    success_url = reverse_lazy('users:profile')
+
+    def get_queryset(self):
+        return self.model.objects.filter(user=self.request.user)
 
 
 class ApplyVacancyView(LoginRequiredMixin, View):

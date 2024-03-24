@@ -9,3 +9,11 @@ class CustomUser(AbstractUser):
     )
 
     user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES)
+
+
+class Company(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+
+
+class JobSeeker(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
