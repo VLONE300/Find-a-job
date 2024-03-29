@@ -3,20 +3,38 @@ from django.shortcuts import render, redirect
 from django.views import View
 
 from resume.models import Resume
+from users.forms import RegistrationForm, CompanyForm, JobSeekerForm
 from vacancy.models import Vacancy, VacancyApplication
-from users.forms import CustomUserCreationForm
 
 
 class RegisterView(View):
     def get(self, request):
-        form = CustomUserCreationForm()
+        form = RegistrationForm()
         return render(request, 'registration/register.html', {'form': form})
 
     def post(self, request):
-        form = CustomUserCreationForm(request.POST)
+        form = RegistrationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+
+            user_type = form.cleaned_data['user_type']
+            if user_type == 'company':
+                company_form = CompanyForm(request.POST)
+                if company_form.is_valid():
+                    company = company_form.save(commit=False)
+                    company.user = user
+                    company.save()
+            elif user_type == 'job_seeker':
+                job_seeker_form = JobSeekerForm(request.POST)
+                if job_seeker_form.is_valid():
+                    job_seeker = job_seeker_form.save(commit=False)
+                    job_seeker.user = user
+                    job_seeker.save()
+
             return redirect('login')
+
         return render(request, 'registration/register.html', {'form': form})
 
 
